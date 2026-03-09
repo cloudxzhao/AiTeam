@@ -1,0 +1,104 @@
+# ======================================================
+# AiTeam 项目管理系统 - Docker Compose 配置
+# Spring Boot 3 + JDK 21 后端 + React 前端
+# ======================================================
+# 说明：
+# - PostgreSQL 使用外部容器 (4faaee9ac6cb)，账户：pgsql / Admin_2026
+# - Redis 和 RabbitMQ 部署到 PostgreSQL 所在的 bridge 网络
+# - 后端和前端服务可选部署
+# ======================================================
+
+services:
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: aiteam-redis
+    command: redis-server --requirepass aiteam123
+    volumes:
+      - aiteam-redis-data:/data
+    networks:
+      - bridge
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--pass", "aiteam123", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ 消息队列
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: aiteam-mq
+    environment:
+      RABBITMQ_DEFAULT_USER: aiteam
+      RABBITMQ_DEFAULT_PASS: aiteam123
+    volumes:
+      - aiteam-mq-data:/var/lib/rabbitmq
+    networks:
+      - bridge
+    restart: unless-stopped
+    ports:
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # AiTeam 后端 API (Spring Boot 3) - 可选部署
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: aiteam-backend
+    environment:
+      DATABASE_HOST: 4faaee9ac6cb
+      DATABASE_PORT: 5432
+      DATABASE_NAME: aiteam
+      DATABASE_USER: pgsql
+      DATABASE_PASSWORD: Admin_2026
+      REDIS_HOST: aiteam-redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: aiteam123
+      RABBITMQ_HOST: aiteam-mq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: aiteam
+      RABBITMQ_PASSWORD: aiteam123
+      JWT_SECRET: aiteam-local-secret-key-2026-aiteam-backend-jwt-token-signing-key
+      CORS_ORIGINS: http://localhost:9000
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    networks:
+      - bridge
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # AiTeam 前端 Web (React + Vite) - 可选部署
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+    container_name: aiteam-web
+    depends_on:
+      - backend
+    ports:
+      - "9000:80"
+    networks:
+      - bridge
+    restart: unless-stopped
+
+volumes:
+  aiteam-redis-data:
+  aiteam-mq-data:
+
+networks:
+  bridge:
+    external: true

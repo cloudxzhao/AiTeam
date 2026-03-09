@@ -1,0 +1,55 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: aiteam-backend
+
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:aiteam}
+    username: ${DATABASE_USER:aiteam}
+    password: ${DATABASE_PASSWORD:aiteam123}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:aiteam123}
+      database: 0
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:aiteam}
+    password: ${RABBITMQ_PASSWORD:aiteam123}
+    virtual-host: /
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:aiteam-local-secret-key-2026-aiteam-backend-jwt-token-signing-key}
+  expiration: 86400000  # 24 hours in milliseconds
+  refresh-expiration: 604800000  # 7 days in milliseconds
+
+# CORS Configuration
+cors:
+  allowed-origins: ${CORS_ORIGINS:http://localhost:9000,http://localhost:3000}
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.aiteam: DEBUG
+    org.springframework.security: DEBUG
