@@ -12,15 +12,12 @@ import {
   RiseOutlined,
   TeamOutlined,
   ClockCircleOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
   ThunderboltOutlined,
   BarChartOutlined,
   BellOutlined,
   AimOutlined,
   FallOutlined,
-  BugOutlined,
-  UserOutlined,
+  ArrowUpOutlined,
 } from '@ant-design/icons'
 import { projectService } from '@/services'
 import { useAuthStore } from '@/store'
