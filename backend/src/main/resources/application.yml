@@ -45,7 +45,7 @@ jwt:
 
 # CORS Configuration
 cors:
-  allowed-origins: ${CORS_ORIGINS:http://localhost:9000,http://localhost:3000}
+  allowed-origins: ${CORS_ORIGINS:http://localhost:9000,http://localhost:3000,http://localhost:3004,http://127.0.0.1:3004}
 
 # Logging
 logging:
