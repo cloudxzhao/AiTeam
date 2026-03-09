@@ -10,13 +10,13 @@ spring:
 
   datasource:
     url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:aiteam}
-    username: ${DATABASE_USER:aiteam}
-    password: ${DATABASE_PASSWORD:aiteam123}
+    username: ${DATABASE_USER:pgsql}
+    password: ${DATABASE_PASSWORD:Admin_2026}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: false
     properties:
       hibernate:

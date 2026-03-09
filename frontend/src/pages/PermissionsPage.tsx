@@ -3,6 +3,7 @@
  */
 import { Card, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { FormOutlined, FileTextOutlined, CheckCircleOutlined, TeamOutlined } from '@ant-design/icons'
 
 const { Title, Text } = Typography
 
@@ -22,7 +23,7 @@ export const PermissionsPage = () => {
           onClick={() => navigate('/permissions/apply')}
           style={styles.card}
         >
-          <div style={styles.cardIcon}>📝</div>
+          <div style={styles.cardIcon}><FormOutlined /></div>
           <Title level={4} style={styles.cardTitle}>权限申请</Title>
           <Text type="secondary">申请加入项目并获取权限</Text>
         </Card>
@@ -32,7 +33,7 @@ export const PermissionsPage = () => {
           onClick={() => navigate('/permissions/history')}
           style={styles.card}
         >
-          <div style={styles.cardIcon}>📋</div>
+          <div style={styles.cardIcon}><FileTextOutlined /></div>
           <Title level={4} style={styles.cardTitle}>申请历史</Title>
           <Text type="secondary">查看我的权限申请记录</Text>
         </Card>
@@ -42,7 +43,7 @@ export const PermissionsPage = () => {
           onClick={() => navigate('/permissions/admin')}
           style={styles.card}
         >
-          <div style={styles.cardIcon}>✅</div>
+          <div style={styles.cardIcon}><CheckCircleOutlined /></div>
           <Title level={4} style={styles.cardTitle}>权限审批</Title>
           <Text type="secondary">审批团队成员的权限申请</Text>
         </Card>
@@ -52,7 +53,7 @@ export const PermissionsPage = () => {
           onClick={() => navigate('/permissions/members')}
           style={styles.card}
         >
-          <div style={styles.cardIcon}>👥</div>
+          <div style={styles.cardIcon}><TeamOutlined /></div>
           <Title level={4} style={styles.cardTitle}>成员管理</Title>
           <Text type="secondary">管理项目成员和角色</Text>
         </Card>

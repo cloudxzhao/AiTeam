@@ -40,11 +40,11 @@ public class ProjectMember {
     @Column(name = "is_owner", nullable = false)
     private Boolean isOwner = false;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "joined_at", nullable = false)
+    private LocalDateTime joinedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        joinedAt = LocalDateTime.now();
     }
 }

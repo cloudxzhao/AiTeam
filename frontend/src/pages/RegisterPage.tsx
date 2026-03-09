@@ -1,9 +1,10 @@
 /**
- * 注册页面
+ * 注册页面 - 极简主义风格
+ * Exaggerated Minimalism + Professional Design
  */
 import { useNavigate, Link } from 'react-router-dom'
 import { Form, Input, Button, message, Typography } from 'antd'
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined, MailOutlined, CheckOutlined, TeamOutlined, DashboardOutlined } from '@ant-design/icons'
 import { useAuthStore } from '@/store'
 
 const { Title, Text } = Typography
@@ -32,39 +33,86 @@ export const RegisterPage = () => {
 
   return (
     <div style={styles.container}>
+      {/* 背景装饰 */}
+      <div style={styles.bgDecoration}>
+        <div style={{ ...styles.bgBlob, top: '-10%', right: '-5%', animationDelay: '0s' }} />
+        <div style={{ ...styles.bgBlob, bottom: '-10%', left: '-5%', animationDelay: '2s', background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(239, 68, 68, 0.15))' }} />
+        <div style={{ ...styles.bgBlob, top: '40%', left: '60%', animationDelay: '4s', width: '250px', height: '250px', background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.12))' }} />
+      </div>
+
       {/* 左侧品牌区域 */}
-      <div style={styles.brandContainer}>
-        <div style={styles.brand}>
-          <div style={styles.brandLogo}>A</div>
-          <Title level={2} style={styles.brandTitle}>开始你的 AiTeam 之旅</Title>
-          <Text style={styles.brandSubtitle}>
+      <div style={styles.brandContainer} className="animate-slide-up">
+        <div style={styles.brandContent}>
+          <div style={styles.brandLogo}>
+            <span>A</span>
+          </div>
+          <Title level={1} style={styles.brandTitle}>
+            <span className="text-gradient">AiTeam</span>
+          </Title>
+          <Text style={styles.brandSlogan}>
+            开始你的智能协作之旅
+          </Text>
+          <Text style={styles.brandDescription}>
             免费创建账户，体验智能协作的魅力。
             无需信用卡，立即开始。
           </Text>
+
+          {/* 特性亮点 */}
           <div style={styles.features}>
             <div style={styles.feature}>
-              <span style={styles.featureIcon}>✓</span>
-              <span>无限项目</span>
+              <div style={{ ...styles.featureIcon, background: 'var(--gradient-primary)' }}>
+                <CheckOutlined style={{ fontSize: '18px', color: 'white' }} />
+              </div>
+              <div>
+                <Text strong style={{ color: 'white', display: 'block' }}>无限项目</Text>
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>无限制创建和管理</Text>
+              </div>
             </div>
             <div style={styles.feature}>
-              <span style={styles.featureIcon}>✓</span>
-              <span>团队成员协作</span>
+              <div style={{ ...styles.featureIcon, background: 'var(--gradient-gold)' }}>
+                <TeamOutlined style={{ fontSize: '18px', color: 'white' }} />
+              </div>
+              <div>
+                <Text strong style={{ color: 'white', display: 'block' }}>团队协作</Text>
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>邀请团队成员</Text>
+              </div>
             </div>
             <div style={styles.feature}>
-              <span style={styles.featureIcon}>✓</span>
-              <span>看板和敏捷功能</span>
+              <div style={{ ...styles.featureIcon, background: '#DC2626' }}>
+                <DashboardOutlined style={{ fontSize: '18px', color: 'white' }} />
+              </div>
+              <div>
+                <Text strong style={{ color: 'white', display: 'block' }}>智能看板</Text>
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>可视化任务管理</Text>
+              </div>
+            </div>
+          </div>
+
+          {/* 信任标识 */}
+          <div style={styles.trustBadges}>
+            <div style={styles.trustItem}>
+              <div style={{ ...styles.trustIcon, background: 'var(--gradient-primary)' }}>🛡️</div>
+              <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>企业级安全</Text>
+            </div>
+            <div style={styles.trustItem}>
+              <div style={{ ...styles.trustIcon, background: 'var(--gradient-gold)' }}>⚡</div>
+              <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>快速部署</Text>
+            </div>
+            <div style={styles.trustItem}>
+              <div style={{ ...styles.trustIcon, background: '#DC2626' }}>💬</div>
+              <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>24/7 支持</Text>
             </div>
           </div>
         </div>
       </div>
 
       {/* 右侧表单区域 */}
-      <div style={styles.formContainer}>
-        <div style={styles.form}>
+      <div style={styles.formContainer} className="animate-scale-in">
+        <div style={styles.formWrapper}>
           <div style={styles.formHeader}>
             <Title level={2} style={styles.formTitle}>创建账户</Title>
-            <Text type="secondary">
-              已有账号？<Link to="/login" style={{ color: '#8B5CF6' }}>立即登录</Link>
+            <Text type="secondary" style={styles.formSubtitle}>
+              已有账号？<Link to="/login" style={{ color: 'var(--color-primary)', fontWeight: 500 }}>立即登录</Link>
             </Text>
           </div>
 
@@ -78,60 +126,64 @@ export const RegisterPage = () => {
           >
             <Form.Item
               name="full_name"
-              label="姓名"
+              label={<Text style={styles.formLabel}>姓名</Text>}
               rules={[{ required: false }]}
             >
               <Input
-                prefix={<UserOutlined />}
+                prefix={<UserOutlined style={{ color: 'var(--gray-400)' }} />}
                 placeholder="请输入您的姓名（可选）"
+                style={styles.input}
               />
             </Form.Item>
 
             <Form.Item
               name="username"
-              label="用户名"
+              label={<Text style={styles.formLabel}>用户名</Text>}
               rules={[
                 { required: true, message: '请输入用户名' },
                 { min: 3, message: '用户名至少 3 个字符' }
               ]}
             >
               <Input
-                prefix={<UserOutlined />}
+                prefix={<UserOutlined style={{ color: 'var(--gray-400)' }} />}
                 placeholder="请输入用户名"
+                style={styles.input}
               />
             </Form.Item>
 
             <Form.Item
               name="email"
-              label="邮箱"
+              label={<Text style={styles.formLabel}>邮箱</Text>}
               rules={[
                 { required: true, message: '请输入邮箱' },
                 { type: 'email', message: '请输入有效的邮箱地址' }
               ]}
             >
               <Input
-                prefix={<MailOutlined />}
-                placeholder="请输入邮箱"
+                prefix={<MailOutlined style={{ color: 'var(--gray-400)' }} />}
+                placeholder="name@example.com"
+                style={styles.input}
               />
             </Form.Item>
 
             <Form.Item
               name="password"
-              label="密码"
+              label={<Text style={styles.formLabel}>密码</Text>}
               rules={[
                 { required: true, message: '请输入密码' },
                 { min: 6, message: '密码至少 6 个字符' }
               ]}
             >
               <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="请输入密码"
+                prefix={<LockOutlined style={{ color: 'var(--gray-400)' }} />}
+                placeholder="••••••••"
+                style={styles.input}
               />
             </Form.Item>
 
             <Form.Item
               name="confirmPassword"
-              label="确认密码"
+              label={<Text style={styles.formLabel}>确认密码</Text>}
               dependencies={['password']}
               rules={[
                 { required: true, message: '请确认密码' },
@@ -146,8 +198,9 @@ export const RegisterPage = () => {
               ]}
             >
               <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="请再次输入密码"
+                prefix={<LockOutlined style={{ color: 'var(--gray-400)' }} />}
+                placeholder="••••••••"
+                style={styles.input}
               />
             </Form.Item>
 
@@ -157,15 +210,18 @@ export const RegisterPage = () => {
                 htmlType="submit"
                 loading={isLoading}
                 size="large"
-                style={{ width: '100%', marginTop: '1rem' }}
+                style={styles.submitButton}
               >
-                注册
+                免费注册
               </Button>
             </Form.Item>
           </Form>
 
           <Text type="secondary" style={styles.footer}>
-            注册即表示你同意我们的<Link to="#terms">服务条款</Link>和<Link to="#privacy">隐私政策</Link>
+            注册即表示你同意我们的
+            <Link to="#terms" style={{ color: 'var(--color-primary)' }}>服务条款</Link>
+            和
+            <Link to="#privacy" style={{ color: 'var(--color-primary)' }}>隐私政策</Link>
           </Text>
         </div>
       </div>
@@ -173,70 +229,122 @@ export const RegisterPage = () => {
   )
 }
 
+// CSS-in-JS 样式
 const styles: Record<string, React.CSSProperties> = {
   container: {
     display: 'flex',
     minHeight: '100vh',
+    position: 'relative',
+    overflow: 'hidden',
+    background: 'var(--bg-gradient)',
   },
+  bgDecoration: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'none',
+    zIndex: 0,
+  },
+  bgBlob: {
+    position: 'absolute',
+    width: '300px',
+    height: '300px',
+    borderRadius: '50%',
+    filter: 'blur(60px)',
+    animation: 'float 6s ease-in-out infinite',
+    opacity: 0.15,
+  } as React.CSSProperties,
   brandContainer: {
     width: '50%',
-    background: 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%)',
+    background: 'var(--gradient-primary)',
     display: 'flex',
+    flexDirection: 'column' as const,
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: '3rem',
+    padding: '4rem',
+    position: 'relative',
+    overflow: 'hidden',
   },
-  brand: {
-    display: 'flex',
-    flexDirection: 'column',
+  brandContent: {
+    position: 'relative',
+    zIndex: 1,
     color: 'white',
-    width: '100%',
-    maxWidth: '400px',
   },
   brandLogo: {
-    width: '48px',
-    height: '48px',
+    width: '64px',
+    height: '64px',
     background: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: '12px',
+    borderRadius: '16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '1.5rem',
-    fontWeight: '800',
-    backdropFilter: 'blur(10px)',
+    fontSize: '28px',
+    fontWeight: 800,
+    color: 'white',
     marginBottom: '2rem',
+    backdropFilter: 'blur(10px)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
   },
   brandTitle: {
     color: 'white',
-    marginBottom: '1rem',
+    marginBottom: '0.5rem',
+    fontSize: '3rem',
+    fontWeight: 800,
   },
-  brandSubtitle: {
-    color: 'rgba(255, 255, 255, 0.9)',
-    fontSize: '1.125rem',
-    lineHeight: 1.7,
-    marginBottom: '2rem',
+  brandSlogan: {
+    color: 'rgba(255, 255, 255, 0.95)',
+    fontSize: '1.25rem',
+    display: 'block',
+    marginBottom: '0.5rem',
+  },
+  brandDescription: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: '1rem',
+    lineHeight: 1.8,
+    display: 'block',
+    marginBottom: '2.5rem',
   },
   features: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column' as const,
     gap: '1rem',
-    marginTop: '2rem',
+    marginBottom: '2rem',
   },
   feature: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.75rem',
-    fontSize: '1rem',
+    gap: '1rem',
   },
   featureIcon: {
-    display: 'inline-flex',
+    width: '36px',
+    height: '36px',
+    borderRadius: '10px',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '24px',
-    height: '24px',
-    background: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: '50%',
-    fontSize: '0.875rem',
+    flexShrink: 0,
+  },
+  trustBadges: {
+    display: 'flex',
+    gap: '1.5rem',
+    paddingTop: '1.5rem',
+    borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+  },
+  trustItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  },
+  trustIcon: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    flexShrink: 0,
   },
   formContainer: {
     width: '50%',
@@ -244,22 +352,61 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: '3rem',
-    background: '#F9FAFB',
   },
-  form: {
+  formWrapper: {
     width: '100%',
-    maxWidth: '400px',
+    maxWidth: '420px',
+    padding: '2.5rem',
+    background: 'var(--bg-secondary)',
+    borderRadius: 'var(--radius-2xl)',
+    boxShadow: 'var(--shadow-xl)',
+    border: '1px solid rgba(220, 38, 38, 0.1)',
   },
   formHeader: {
     marginBottom: '2rem',
+    textAlign: 'center' as const,
   },
   formTitle: {
     marginBottom: '0.5rem',
+    fontSize: '1.75rem',
+    fontWeight: 700,
+    color: 'var(--text-primary)',
+  },
+  formSubtitle: {
+    fontSize: '14px',
+  },
+  formLabel: {
+    fontSize: '13px',
+    fontWeight: 500,
+    color: 'var(--text-primary)',
+    marginBottom: '6px',
+    display: 'block',
+  },
+  input: {
+    height: '48px',
+    borderRadius: 'var(--radius-md)',
+    border: '2px solid var(--gray-200)',
+    fontSize: '14px',
+    transition: 'all var(--transition-base)',
+  },
+  submitButton: {
+    height: '50px',
+    borderRadius: 'var(--radius-md)',
+    fontSize: '15px',
+    fontWeight: 600,
+    background: 'var(--color-primary)',
+    color: 'white',
+    border: 'none',
+    boxShadow: 'var(--shadow-md)',
+    transition: 'all var(--transition-base)',
+    width: '100%',
+    marginTop: '0.5rem',
   },
   footer: {
     display: 'block',
-    marginTop: '1rem',
-    textAlign: 'center',
+    marginTop: '1.5rem',
+    textAlign: 'center' as const,
+    fontSize: '12px',
   },
 }
 

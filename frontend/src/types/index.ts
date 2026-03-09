@@ -6,21 +6,20 @@
 export interface User {
   id: number
   username: string
-  full_name: string
+  full_name?: string
   email: string
   photo?: string
-  color?: string
   is_active?: boolean
 }
 
 // 认证响应
 export interface AuthResponse {
-  auth_token: string
-  refresh: string
   id: number
   username: string
-  full_name: string
+  full_name?: string
   email: string
+  auth_token: string
+  refresh: string
 }
 
 // 项目类型
@@ -139,18 +138,14 @@ export interface KanbanCard {
   tags?: string[]
 }
 
-// 权限申请
-export interface PermissionApplication {
+// 权限点
+export interface Permission {
   id: number
-  user: User
-  project: Project
-  requested_role: string
-  reason?: string
-  status: 'pending' | 'approved' | 'rejected'
-  created_at: string
-  reviewed_at?: string
-  reviewer?: User
-  review_note?: string
+  codename: string
+  name: string
+  module: string
+  description?: string
+  is_active: boolean
 }
 
 // 角色定义
@@ -158,7 +153,83 @@ export interface Role {
   id: number
   name: string
   slug: string
-  permissions: string[]
+  description?: string
+  is_system: boolean
+  is_admin: boolean
+  permissions: Permission[]
+}
+
+// 权限申请
+export interface PermissionApplication {
+  id: number
+  apply_id: string
+  applicant_id: number
+  applicant_name?: string
+  applicant_email?: string
+  project_id: number
+  project_name?: string
+  role_id: number
+  role_name?: string
+  reason?: string
+  status: 'PENDING' | 'APPROVED' | 'REJECTED'
+  submitted_at: string
+  approver_id?: number
+  approver_name?: string
+  approved_at?: string
+  approve_note?: string
+}
+
+// 项目成员详情
+export interface ProjectMemberDetail {
+  id: number
+  project_id: number
+  user_id: number
+  username: string
+  email: string
+  full_name?: string
+  photo?: string
+  role_id: number
+  role_name: string
+  is_owner: boolean
+  joined_at: string
+}
+
+// 权限申请请求
+export interface PermissionApplyRequest {
+  projectId: number
+  roleId: number
+  reason?: string
+}
+
+// 审批请求
+export interface ApproveRequest {
+  note: string
+}
+
+// 添加项目成员请求
+export interface AddProjectMemberRequest {
+  userId: number
+  roleId: number
+}
+
+// 审计日志
+export interface AuditLog {
+  id: number
+  log_id: string
+  operator_id: number
+  operator_username?: string
+  operator_ip?: string
+  action: 'GRANT' | 'REVOKE' | 'APPLY' | 'APPROVE' | 'REJECT' | 'CREATE_PROJECT'
+  target_user_id?: number
+  target_username?: string
+  target_project_id?: number
+  target_project_name?: string
+  target_role_id?: number
+  target_role_name?: string
+  detail?: string
+  result: 'SUCCESS' | 'FAILURE'
+  error_msg?: string
+  created_at: string
 }
 
 // API 响应基础类型

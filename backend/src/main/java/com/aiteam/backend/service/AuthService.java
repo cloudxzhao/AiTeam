@@ -75,7 +75,6 @@ public class AuthService {
                 .phone(request.getPhone())
                 .isActive(true)
                 .isSuperuser(false)
-                .roles(new HashSet<>())
                 .build();
 
         user = userRepository.save(user);

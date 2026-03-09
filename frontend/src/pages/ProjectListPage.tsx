@@ -23,6 +23,11 @@ import {
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
+  LockOutlined,
+  GlobalOutlined,
+  BarChartOutlined,
+  FileTextOutlined,
+  BugOutlined,
 } from '@ant-design/icons'
 import { projectService } from '@/services'
 import type { Project } from '@/types'
@@ -161,10 +166,10 @@ export const ProjectListPage = () => {
                         {project.name}
                       </Text>
                       {project.is_private && (
-                        <span style={styles.privateTag}>🔒 私有</span>
+                        <span style={styles.privateTag}><LockOutlined style={{ marginRight: 4, verticalAlign: 'middle' }} />私有</span>
                       )}
                       {!project.is_private && (
-                        <span style={styles.publicTag}>🌍 公开</span>
+                        <span style={styles.publicTag}><GlobalOutlined style={{ marginRight: 4, verticalAlign: 'middle' }} />公开</span>
                       )}
                     </div>
                   }
@@ -179,17 +184,17 @@ export const ProjectListPage = () => {
                       <div style={styles.projectMeta}>
                         {project.is_kanban_activated && (
                           <Text type="secondary" style={{ fontSize: '0.75rem' }}>
-                            📊 看板
+                            <BarChartOutlined style={{ marginRight: 4, verticalAlign: 'middle' }} />看板
                           </Text>
                         )}
                         {project.is_backlog_activated && (
                           <Text type="secondary" style={{ fontSize: '0.75rem' }}>
-                            📋 Backlog
+                            <FileTextOutlined style={{ marginRight: 4, verticalAlign: 'middle' }} />Backlog
                           </Text>
                         )}
                         {project.is_issue_activated && (
                           <Text type="secondary" style={{ fontSize: '0.75rem' }}>
-                            🐛 问题
+                            <BugOutlined style={{ marginRight: 4, verticalAlign: 'middle' }} />问题
                           </Text>
                         )}
                       </div>
@@ -250,8 +255,8 @@ export const ProjectListPage = () => {
 
           <Form.Item name="is_private" label="可见性" valuePropName="checked">
             <Switch
-              checkedChildren="🔒 私有"
-              unCheckedChildren="🌍 公开"
+              checkedChildren={<span><LockOutlined /> 私有</span>}
+              unCheckedChildren={<span><GlobalOutlined /> 公开</span>}
             />
           </Form.Item>
 

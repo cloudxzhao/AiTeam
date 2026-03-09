@@ -21,7 +21,7 @@ import {
   Alert,
   Tag,
 } from 'antd'
-import { PlusOutlined, WarningOutlined } from '@ant-design/icons'
+import { PlusOutlined, WarningOutlined, FileTextOutlined, CheckCircleOutlined, BugOutlined } from '@ant-design/icons'
 import {
   DndContext,
   closestCenter,
@@ -429,9 +429,9 @@ export const KanbanPage = () => {
             rules={[{ required: true, message: '请选择卡片类型' }]}
           >
             <Select size="large">
-              <Select.Option value="userstory">📝 用户故事</Select.Option>
-              <Select.Option value="task">✅ 任务</Select.Option>
-              <Select.Option value="issue">🐛 问题</Select.Option>
+              <Select.Option value="userstory"><FileTextOutlined style={{ marginRight: 4 }} /> 用户故事</Select.Option>
+              <Select.Option value="task"><CheckCircleOutlined style={{ marginRight: 4 }} /> 任务</Select.Option>
+              <Select.Option value="issue"><BugOutlined style={{ marginRight: 4 }} /> 问题</Select.Option>
             </Select>
           </Form.Item>
 

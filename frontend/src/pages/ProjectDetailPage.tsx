@@ -21,6 +21,10 @@ import {
   UnorderedListOutlined,
   BugOutlined,
   SettingOutlined,
+  LockOutlined,
+  GlobalOutlined,
+  BarChartOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons'
 import { projectService } from '@/services'
 import type { Project } from '@/types'
@@ -101,13 +105,13 @@ export const ProjectDetailPage = () => {
             </Paragraph>
             <Space wrap style={{ marginTop: '0.75rem' }}>
               {project.is_private ? (
-                <Tag color="default">🔒 私有</Tag>
+                <Tag color="default"><LockOutlined style={{ marginRight: 4 }} />私有</Tag>
               ) : (
-                <Tag color="purple">🌍 公开</Tag>
+                <Tag color="purple"><GlobalOutlined style={{ marginRight: 4 }} />公开</Tag>
               )}
-              {project.is_kanban_activated && <Tag color="blue">📊 看板</Tag>}
-              {project.is_backlog_activated && <Tag color="green">📋 Backlog</Tag>}
-              {project.is_issue_activated && <Tag color="orange">🐛 问题</Tag>}
+              {project.is_kanban_activated && <Tag color="blue"><BarChartOutlined style={{ marginRight: 4 }} />看板</Tag>}
+              {project.is_backlog_activated && <Tag color="green"><FileTextOutlined style={{ marginRight: 4 }} />Backlog</Tag>}
+              {project.is_issue_activated && <Tag color="orange"><BugOutlined style={{ marginRight: 4 }} />问题</Tag>}
             </Space>
           </div>
         </div>
@@ -131,7 +135,7 @@ export const ProjectDetailPage = () => {
                 <div style={styles.tabContent}>
                   {project.is_kanban_activated ? (
                     <div style={styles.kanbanPlaceholder}>
-                      <div style={styles.kanbanIcon}>📊</div>
+                      <div style={styles.kanbanIcon}><BarChartOutlined /></div>
                       <Title level={4}>看板功能</Title>
                       <Text type="secondary">
                         点击下方按钮创建看板，管理你的任务流
@@ -169,7 +173,7 @@ export const ProjectDetailPage = () => {
                 <div style={styles.tabContent}>
                   {project.is_backlog_activated ? (
                     <div style={styles.backlogPlaceholder}>
-                      <div style={styles.backlogIcon}>📋</div>
+                      <div style={styles.backlogIcon}><FileTextOutlined /></div>
                       <Title level={4}>Backlog 功能</Title>
                       <Text type="secondary">
                         管理和优先级排序用户故事
@@ -206,7 +210,7 @@ export const ProjectDetailPage = () => {
                 <div style={styles.tabContent}>
                   {project.is_issue_activated ? (
                     <div style={styles.issuesPlaceholder}>
-                      <div style={styles.issuesIcon}>🐛</div>
+                      <div style={styles.issuesIcon}><BugOutlined /></div>
                       <Title level={4}>问题追踪</Title>
                       <Text type="secondary">
                         追踪和管理项目中的问题和 Bug

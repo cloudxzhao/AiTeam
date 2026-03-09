@@ -1,7 +1,7 @@
 /**
  * 权限申请页面
  */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Card,
   Form,
@@ -12,9 +12,12 @@ import {
   message,
   Table,
   Tag,
+  Empty,
+  Spin,
 } from 'antd'
-import { permissionService } from '@/services'
-import type { PermissionApplication, Project, Role } from '@/types'
+import { permissionService } from '@/services/permission.service'
+import type { PermissionApplication, Role } from '@/types'
+import { LockOutlined } from '@ant-design/icons'
 
 const { Title, Text } = Typography
 const { TextArea } = Input
@@ -22,29 +25,40 @@ const { TextArea } = Input
 export const PermissionsApplyPage = () => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
-  const [projects] = useState<Project[]>([
-    { id: 1, name: '项目 A', is_private: false } as Project,
-    { id: 2, name: '项目 B', is_private: true } as Project,
-  ])
-  const [roles] = useState<Role[]>([
-    { id: 1, name: '开发者', slug: 'developer', permissions: [] } as Role,
-    { id: 2, name: '产品经理', slug: 'product-owner', permissions: [] } as Role,
-    { id: 3, name: '设计师', slug: 'designer', permissions: [] } as Role,
-  ])
+  const [roles, setRoles] = useState<Role[]>([])
   const [applications, setApplications] = useState<PermissionApplication[]>([])
+  const [loadingData, setLoadingData] = useState(true)
 
+  // 加载角色列表
+  const loadRoles = async () => {
+    try {
+      const data = await permissionService.getRoles()
+      setRoles(data)
+    } catch (error) {
+      console.error('Failed to load roles:', error)
+    }
+  }
+
+  // 加载申请历史
   const loadApplications = async () => {
     try {
       const data = await permissionService.getMyApplications()
       setApplications(data)
     } catch (error) {
       console.error('Failed to load applications:', error)
+    } finally {
+      setLoadingData(false)
     }
   }
 
+  useEffect(() => {
+    loadRoles()
+    loadApplications()
+  }, [])
+
   const handleSubmit = async (values: {
-    project_id: number
-    role_id: number
+    projectId: number
+    roleId: number
     reason?: string
   }) => {
     try {
@@ -53,9 +67,9 @@ export const PermissionsApplyPage = () => {
       message.success('权限申请已提交，请等待审批')
       form.resetFields()
       loadApplications()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to apply permission:', error)
-      message.error('申请失败，请稍后重试')
+      message.error(error.response?.data?.message || '申请失败，请稍后重试')
     } finally {
       setLoading(false)
     }
@@ -63,9 +77,9 @@ export const PermissionsApplyPage = () => {
 
   const getStatusTag = (status: string) => {
     const statusMap: Record<string, { color: string; text: string }> = {
-      pending: { color: 'orange', text: '待审批' },
-      approved: { color: 'green', text: '已通过' },
-      rejected: { color: 'red', text: '已拒绝' },
+      PENDING: { color: 'orange', text: '待审批' },
+      APPROVED: { color: 'green', text: '已通过' },
+      REJECTED: { color: 'red', text: '已拒绝' },
     }
     const { color, text } = statusMap[status] || { color: 'default', text: status }
     return <Tag color={color}>{text}</Tag>
@@ -74,18 +88,25 @@ export const PermissionsApplyPage = () => {
   const columns = [
     {
       title: '项目名称',
-      dataIndex: ['project', 'name'],
-      key: 'project',
+      dataIndex: 'project_name',
+      key: 'project_name',
     },
     {
       title: '申请角色',
-      dataIndex: 'requested_role',
-      key: 'role',
+      dataIndex: 'role_name',
+      key: 'role_name',
+    },
+    {
+      title: '申请理由',
+      dataIndex: 'reason',
+      key: 'reason',
+      ellipsis: true,
     },
     {
       title: '申请时间',
-      dataIndex: 'created_at',
-      key: 'created_at',
+      dataIndex: 'submitted_at',
+      key: 'submitted_at',
+      render: (text: string) => new Date(text).toLocaleString('zh-CN'),
     },
     {
       title: '状态',
@@ -95,11 +116,19 @@ export const PermissionsApplyPage = () => {
     },
     {
       title: '审批意见',
-      dataIndex: 'review_note',
-      key: 'review_note',
+      dataIndex: 'approve_note',
+      key: 'approve_note',
       render: (note?: string) => note || '-',
     },
   ]
+
+  if (loadingData) {
+    return (
+      <div style={styles.center}>
+        <Spin size="large" tip="加载中..." />
+      </div>
+    )
+  }
 
   return (
     <div style={styles.container}>
@@ -115,28 +144,25 @@ export const PermissionsApplyPage = () => {
         <Card title="申请项目权限">
           <Form form={form} layout="vertical" onFinish={handleSubmit}>
             <Form.Item
-              name="project_id"
+              name="projectId"
               label="选择项目"
               rules={[{ required: true, message: '请选择项目' }]}
             >
               <Select placeholder="请选择要加入的项目" size="large">
-                {projects.map((project) => (
-                  <Select.Option key={project.id} value={project.id}>
-                    {project.name} {project.is_private && '🔒'}
-                  </Select.Option>
-                ))}
+                <Select.Option value={1}>项目 A</Select.Option>
+                <Select.Option value={2}><LockOutlined style={{ marginRight: 4 }} /> 项目 B</Select.Option>
               </Select>
             </Form.Item>
 
             <Form.Item
-              name="role_id"
+              name="roleId"
               label="申请角色"
               rules={[{ required: true, message: '请选择角色' }]}
             >
               <Select placeholder="请选择希望担任的角色" size="large">
                 {roles.map((role) => (
                   <Select.Option key={role.id} value={role.id}>
-                    {role.name}
+                    {role.name} - {role.description}
                   </Select.Option>
                 ))}
               </Select>
@@ -166,13 +192,18 @@ export const PermissionsApplyPage = () => {
 
         {/* 申请历史 */}
         <Card title="我的申请记录">
-          <Table
-            dataSource={applications}
-            columns={columns}
-            rowKey="id"
-            pagination={false}
-            scroll={{ y: 400 }}
-          />
+          {applications.length === 0 ? (
+            <Empty description="暂无申请记录" />
+          ) : (
+            <Table
+              dataSource={applications}
+              columns={columns}
+              rowKey="id"
+              pagination={{ pageSize: 5 }}
+              scroll={{ y: 400 }}
+              size="small"
+            />
+          )}
         </Card>
       </div>
     </div>
@@ -183,9 +214,19 @@ const styles: Record<string, React.CSSProperties> = {
   container: {
     maxWidth: '1200px',
     margin: '0 auto',
+    padding: '24px',
   },
   header: {
     marginBottom: '1.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '400px',
   },
 }
 

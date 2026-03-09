@@ -4,7 +4,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Card, Tag, Button, Typography } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, FileTextOutlined, CheckCircleOutlined, BugOutlined, PushpinOutlined } from '@ant-design/icons'
 import type { KanbanCard } from '@/types'
 
 const { Text, Paragraph } = Typography
@@ -48,13 +48,13 @@ export const SortableCard = ({
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'userstory':
-        return '📝'
+        return <FileTextOutlined />
       case 'task':
-        return '✅'
+        return <CheckCircleOutlined />
       case 'issue':
-        return '🐛'
+        return <BugOutlined />
       default:
-        return '📌'
+        return <PushpinOutlined />
     }
   }
 

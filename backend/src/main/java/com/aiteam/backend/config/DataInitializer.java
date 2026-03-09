@@ -11,9 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * 数据初始化器
  * 系统启动时自动创建管理员账户和默认角色
@@ -46,55 +43,29 @@ public class DataInitializer implements CommandLineRunner {
 
     /**
      * 初始化默认角色
+     * 角色由 Flyway 迁移脚本 V2 和 V3 创建，此处仅做检查
      */
     private void initRoles() {
-        // 创建超级管理员角色
-        if (!roleRepository.existsByName("超级管理员")) {
-            Role superAdminRole = Role.builder()
-                    .name("超级管理员")
-                    .description("系统超级管理员，拥有所有权限")
-                    .isAdmin(true)
-                    .isSystem(true)
-                    .build();
-            roleRepository.save(superAdminRole);
-            log.info("创建角色: 超级管理员");
+        // 角色由 Flyway 迁移脚本创建，此处仅检查是否存在
+        if (!roleRepository.existsBySlug("architect")) {
+            log.warn("未找到架构师角色，请检查 Flyway 迁移是否执行");
         }
-
-        // 创建项目管理员角色
-        if (!roleRepository.existsByName("项目管理员")) {
-            Role projectAdminRole = Role.builder()
-                    .name("项目管理员")
-                    .description("项目管理员，可以管理项目成员和设置")
-                    .isAdmin(false)
-                    .isSystem(true)
-                    .build();
-            roleRepository.save(projectAdminRole);
-            log.info("创建角色: 项目管理员");
+        if (!roleRepository.existsBySlug("validator")) {
+            log.warn("未找到验证员角色，请检查 Flyway 迁移是否执行");
         }
-
-        // 创建开发者角色
-        if (!roleRepository.existsByName("开发者")) {
-            Role developerRole = Role.builder()
-                    .name("开发者")
-                    .description("开发者，可以创建和编辑项目内容")
-                    .isAdmin(false)
-                    .isSystem(true)
-                    .build();
-            roleRepository.save(developerRole);
-            log.info("创建角色: 开发者");
+        if (!roleRepository.existsBySlug("builder")) {
+            log.warn("未找到构建员角色，请检查 Flyway 迁移是否执行");
         }
-
-        // 创建查看者角色
-        if (!roleRepository.existsByName("查看者")) {
-            Role viewerRole = Role.builder()
-                    .name("查看者")
-                    .description("查看者，只能查看项目内容")
-                    .isAdmin(false)
-                    .isSystem(true)
-                    .build();
-            roleRepository.save(viewerRole);
-            log.info("创建角色: 查看者");
+        if (!roleRepository.existsBySlug("scribe")) {
+            log.warn("未找到记录员角色，请检查 Flyway 迁移是否执行");
         }
+        if (!roleRepository.existsBySlug("project_admin")) {
+            log.warn("未找到项目管理员角色，请检查 Flyway 迁移是否执行");
+        }
+        if (!roleRepository.existsBySlug("super_admin")) {
+            log.warn("未找到超级管理员角色，请检查 Flyway 迁移是否执行");
+        }
+        log.info("角色检查完成");
     }
 
     /**
@@ -107,12 +78,14 @@ public class DataInitializer implements CommandLineRunner {
             return;
         }
 
-        // 获取超级管理员角色
-        Role superAdminRole = roleRepository.findByName("超级管理员")
+        // 获取超级管理员角色（使用 slug 查询）
+        Role superAdminRole = roleRepository.findBySlug("super_admin")
                 .orElseGet(() -> {
+                    log.warn("未找到超级管理员角色，创建默认角色");
                     Role role = Role.builder()
                             .name("超级管理员")
-                            .description("系统超级管理员，拥有所有权限")
+                            .slug("super_admin")
+                            .description("系统级，不受项目限制")
                             .isAdmin(true)
                             .isSystem(true)
                             .build();
@@ -120,9 +93,6 @@ public class DataInitializer implements CommandLineRunner {
                 });
 
         // 创建管理员用户
-        Set<Role> roles = new HashSet<>();
-        roles.add(superAdminRole);
-
         User adminUser = User.builder()
                 .username(ADMIN_USERNAME)
                 .password(passwordEncoder.encode(ADMIN_PASSWORD))
@@ -130,16 +100,15 @@ public class DataInitializer implements CommandLineRunner {
                 .fullName(ADMIN_FULL_NAME)
                 .isActive(true)
                 .isSuperuser(true)
-                .roles(roles)
                 .build();
 
         userRepository.save(adminUser);
 
         log.info("==========================================");
         log.info("管理员账户创建成功!");
-        log.info("用户名: {}", ADMIN_USERNAME);
-        log.info("密码: {}", ADMIN_PASSWORD);
-        log.info("邮箱: {}", ADMIN_EMAIL);
+        log.info("用户名：{}", ADMIN_USERNAME);
+        log.info("密码：{}", ADMIN_PASSWORD);
+        log.info("邮箱：{}", ADMIN_EMAIL);
         log.info("请在登录后及时修改密码!");
         log.info("==========================================");
     }

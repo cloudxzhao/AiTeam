@@ -1,5 +1,6 @@
 # IDE
 .idea/
+.claude/
 .vscode/
 *.iml
 
@@ -30,3 +31,6 @@ Thumbs.db
 # Test coverage
 coverage/
 .nyc_output/
+
+# Document
+*.md
