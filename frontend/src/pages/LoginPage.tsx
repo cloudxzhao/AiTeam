@@ -1,10 +1,10 @@
 /**
- * 登录页面 - 极简主义风格
- * Exaggered Minimalism + Professional Design
+ * 登录页面 - Digital Banking App Style
+ * Professional, Secure, Trustworthy
  */
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { Form, Input, Button, Checkbox, message, Typography, Divider } from 'antd'
-import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined, CheckCircleOutlined, ClockCircleOutlined, TeamOutlined, GooglePlusOutlined } from '@ant-design/icons'
 import { useAuthStore } from '@/store'
 
 const { Title, Text } = Typography
@@ -31,13 +31,6 @@ export const LoginPage = () => {
 
   return (
     <div style={styles.container}>
-      {/* 背景装饰 */}
-      <div style={styles.bgDecoration}>
-        <div style={{ ...styles.bgBlob, top: '-10%', right: '-5%', animationDelay: '0s' }} />
-        <div style={{ ...styles.bgBlob, bottom: '-10%', left: '-5%', animationDelay: '2s', background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(239, 68, 68, 0.15))' }} />
-        <div style={{ ...styles.bgBlob, top: '50%', left: '50%', animationDelay: '4s', width: '200px', height: '200px', background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.12))' }} />
-      </div>
-
       {/* 左侧品牌区域 */}
       <div style={styles.brandContainer} className="animate-slide-up">
         <div style={styles.brandContent}>
@@ -45,78 +38,44 @@ export const LoginPage = () => {
             <span>A</span>
           </div>
           <Title level={1} style={styles.brandTitle}>
-            <span className="text-gradient">AiTeam</span>
+            AiTeam
           </Title>
           <Text style={styles.brandSlogan}>
             让协作更智能，让效率更卓越
           </Text>
           <Text style={styles.brandDescription}>
-            加入数千个团队，体验全新的项目管理方式。
-            简洁、高效、愉悦。
+            专业的项目管理平台，助力团队高效协作
           </Text>
 
-          {/* 特性亮点 */}
+          {/* 特性亮点 - 数字银行风格图标 */}
           <div style={styles.features}>
             <div style={styles.feature}>
-              <div style={{ ...styles.featureIcon, background: 'var(--gradient-primary)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                  <path d="M2 17l10 5 10-5"/>
-                  <path d="M2 12l10 5 10-5"/>
-                </svg>
+              <div style={styles.featureIcon}>
+                <CheckCircleOutlined style={{ fontSize: '20px', color: 'white' }} />
               </div>
               <div>
-                <Text strong style={{ color: 'white', display: 'block' }}>智能看板</Text>
-                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>可视化任务管理</Text>
+                <Text strong style={{ color: 'white', display: 'block', fontSize: '14px' }}>安全可靠</Text>
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>企业级数据保护</Text>
               </div>
             </div>
             <div style={styles.feature}>
-              <div style={{ ...styles.featureIcon, background: 'var(--gradient-gold)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M12 6v6l4 2"/>
-                </svg>
+              <div style={styles.featureIcon}>
+                <ClockCircleOutlined style={{ fontSize: '20px', color: 'white' }} />
               </div>
               <div>
-                <Text strong style={{ color: 'white', display: 'block' }}>实时追踪</Text>
-                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>进度一目了然</Text>
+                <Text strong style={{ color: 'white', display: 'block', fontSize: '14px' }}>实时协作</Text>
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>团队无缝配合</Text>
               </div>
             </div>
             <div style={styles.feature}>
-              <div style={{ ...styles.featureIcon, background: '#DC2626' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
+              <div style={styles.featureIcon}>
+                <TeamOutlined style={{ fontSize: '20px', color: 'white' }} />
               </div>
               <div>
-                <Text strong style={{ color: 'white', display: 'block' }}>团队协作</Text>
-                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>多人实时协作</Text>
+                <Text strong style={{ color: 'white', display: 'block', fontSize: '14px' }}>智能管理</Text>
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>可视化任务追踪</Text>
               </div>
             </div>
-          </div>
-
-          {/* 用户评价 */}
-          <div style={styles.testimonial}>
-            <div style={styles.testimonialContent}>
-              <Text italic style={styles.quote}>
-                "AiTeam 彻底改变了我们团队的工作方式。现在我们的效率提高了 40%！"
-              </Text>
-              <div style={styles.testimonialAuthor}>
-                <div style={styles.authorAvatar}>张</div>
-                <div>
-                  <Text strong style={{ color: 'white', display: 'block', fontSize: '13px' }}>张明</Text>
-                  <Text style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>某科技公司技术总监</Text>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 信任徽章 */}
-          <div style={styles.trustBadges}>
-            <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>受到全球 1000+ 团队信赖</Text>
           </div>
         </div>
       </div>
@@ -166,7 +125,7 @@ export const LoginPage = () => {
             <Form.Item>
               <div style={styles.formOptions}>
                 <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox style={{ color: 'var(--gray-600)' }}>记住我</Checkbox>
+                  <Checkbox style={{ color: 'var(--text-secondary)' }}>记住我</Checkbox>
                 </Form.Item>
                 <Link to="/forgot-password" style={{ color: 'var(--color-primary)', fontSize: '13px' }}>忘记密码？</Link>
               </div>
@@ -185,11 +144,11 @@ export const LoginPage = () => {
             </Form.Item>
           </Form>
 
-          <Divider style={{ color: 'var(--gray-400)', fontSize: '12px' }}>或使用以下方式登录</Divider>
+          <Divider style={{ color: 'var(--gray-400)', fontSize: '12px', margin: '24px 0' }}>或使用以下方式登录</Divider>
 
           <div style={styles.social}>
             <Button
-              icon={<GoogleOutlined />}
+              icon={<GooglePlusOutlined />}
               size="large"
               style={styles.socialButton}
             >
@@ -209,7 +168,7 @@ export const LoginPage = () => {
   )
 }
 
-// CSS-in-JS 样式
+// CSS-in-JS 样式 - 数字银行风格
 const styles: Record<string, React.CSSProperties> = {
   container: {
     display: 'flex',
@@ -218,24 +177,6 @@ const styles: Record<string, React.CSSProperties> = {
     overflow: 'hidden',
     background: 'var(--bg-gradient)',
   },
-  bgDecoration: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    pointerEvents: 'none',
-    zIndex: 0,
-  },
-  bgBlob: {
-    position: 'absolute',
-    width: '300px',
-    height: '300px',
-    borderRadius: '50%',
-    filter: 'blur(60px)',
-    animation: 'float 6s ease-in-out infinite',
-    opacity: 0.15,
-  } as React.CSSProperties,
   brandContainer: {
     width: '50%',
     background: 'var(--gradient-primary)',
@@ -252,15 +193,15 @@ const styles: Record<string, React.CSSProperties> = {
     color: 'white',
   },
   brandLogo: {
-    width: '64px',
-    height: '64px',
+    width: '56px',
+    height: '56px',
     background: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: '16px',
+    borderRadius: 'var(--radius-xl)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '28px',
-    fontWeight: 800,
+    fontWeight: 700,
     color: 'white',
     marginBottom: '2rem',
     backdropFilter: 'blur(10px)',
@@ -268,28 +209,27 @@ const styles: Record<string, React.CSSProperties> = {
   },
   brandTitle: {
     color: 'white',
-    marginBottom: '0.5rem',
-    fontSize: '3rem',
-    fontWeight: 800,
+    marginBottom: '0.75rem',
+    fontSize: '2.5rem',
+    fontWeight: 700,
   },
   brandSlogan: {
     color: 'rgba(255, 255, 255, 0.95)',
-    fontSize: '1.25rem',
+    fontSize: '1.125rem',
     display: 'block',
-    marginBottom: '1rem',
+    marginBottom: '0.75rem',
   },
   brandDescription: {
     color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: '1rem',
-    lineHeight: 1.8,
+    fontSize: '0.95rem',
+    lineHeight: 1.7,
     display: 'block',
     marginBottom: '2.5rem',
   },
   features: {
     display: 'flex',
     flexDirection: 'column' as const,
-    gap: '1rem',
-    marginBottom: '2.5rem',
+    gap: '1.25rem',
   },
   feature: {
     display: 'flex',
@@ -297,53 +237,14 @@ const styles: Record<string, React.CSSProperties> = {
     gap: '1rem',
   },
   featureIcon: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '10px',
+    width: '44px',
+    height: '44px',
+    borderRadius: 'var(--radius-lg)',
+    background: 'rgba(255, 255, 255, 0.15)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-  },
-  testimonial: {
-    background: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: '16px',
-    padding: '1.5rem',
-    marginBottom: '2rem',
-    backdropFilter: 'blur(10px)',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-  },
-  testimonialContent: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '1rem',
-  },
-  quote: {
-    color: 'white',
-    fontSize: '1rem',
-    lineHeight: 1.7,
-  },
-  testimonialAuthor: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.75rem',
-  },
-  authorAvatar: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    background: 'rgba(255, 255, 255, 0.2)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '14px',
-    fontWeight: 600,
-    color: 'white',
-  },
-  trustBadges: {
-    textAlign: 'center' as const,
-    paddingTop: '1rem',
-    borderTop: '1px solid rgba(255, 255, 255, 0.2)',
   },
   formContainer: {
     width: '50%',
@@ -351,6 +252,7 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: '3rem',
+    background: 'white',
   },
   formWrapper: {
     width: '100%',
@@ -358,8 +260,8 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '2.5rem',
     background: 'var(--bg-secondary)',
     borderRadius: 'var(--radius-2xl)',
-    boxShadow: 'var(--shadow-xl)',
-    border: '1px solid rgba(220, 38, 38, 0.1)',
+    boxShadow: 'var(--shadow-lg)',
+    border: 'var(--border-default)',
   },
   formHeader: {
     marginBottom: '2rem',
@@ -368,11 +270,12 @@ const styles: Record<string, React.CSSProperties> = {
   formTitle: {
     marginBottom: '0.5rem',
     fontSize: '1.75rem',
-    fontWeight: 700,
+    fontWeight: 600,
     color: 'var(--text-primary)',
   },
   formSubtitle: {
     fontSize: '14px',
+    color: 'var(--text-secondary)',
   },
   formLabel: {
     fontSize: '13px',
@@ -384,7 +287,7 @@ const styles: Record<string, React.CSSProperties> = {
   input: {
     height: '48px',
     borderRadius: 'var(--radius-md)',
-    border: '2px solid var(--gray-200)',
+    border: 'var(--border-default)',
     fontSize: '14px',
     transition: 'all var(--transition-base)',
   },
@@ -394,15 +297,17 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
   },
   submitButton: {
-    height: '50px',
+    height: '48px',
     borderRadius: 'var(--radius-md)',
     fontSize: '15px',
     fontWeight: 600,
     background: 'var(--color-primary)',
     color: 'white',
     border: 'none',
-    boxShadow: 'var(--shadow-md)',
+    boxShadow: 'var(--shadow-sm)',
     transition: 'all var(--transition-base)',
+    width: '100%',
+    marginTop: '0.5rem',
   },
   divider: {
     display: 'flex',
@@ -414,13 +319,12 @@ const styles: Record<string, React.CSSProperties> = {
   },
   social: {
     display: 'flex',
-    gap: '0.75rem',
   },
   socialButton: {
     flex: 1,
     height: '48px',
     borderRadius: 'var(--radius-md)',
-    border: '2px solid var(--gray-200)',
+    border: 'var(--border-default)',
     background: 'var(--bg-secondary)',
     fontSize: '14px',
     fontWeight: 500,
@@ -431,6 +335,7 @@ const styles: Record<string, React.CSSProperties> = {
     marginTop: '1.5rem',
     textAlign: 'center' as const,
     fontSize: '12px',
+    color: 'var(--text-muted)',
   },
 }
 
